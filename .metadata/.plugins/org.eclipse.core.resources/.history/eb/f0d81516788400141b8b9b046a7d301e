@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <SwitchPreference
+        android:key="pref_enabled"
+        android:title="App Enabled"
+        android:summary="Turn on the app to run in the background"
+        android:defaultValue="true"
+        />
+    <SwitchPreference
+        android:key="pref_wifionly"
+        android:title="WiFi Only"
+        android:summary="Only allow the app to run while on WiFi"
+        android:defaultValue="true"
+        />
+    <SwitchPreference
+        android:key="pref_chargeonly"
+        android:title="Charge Only"
+        android:summary="Only allow the app to run while charging"
+        android:defaultValue="false"
+        />
+    <ListPreference
+        android:key="pref_batteryCharge"
+        android:title="Battery Percentage"
+        android:dialogTitle="Select how much battery is required to run the app"
+        android:entries="@array/chargestate"
+        android:entryValues="@array/chargestatevalues" 
+        android:defaultValue="50"
+        />
+
+
+</PreferenceScreen>
