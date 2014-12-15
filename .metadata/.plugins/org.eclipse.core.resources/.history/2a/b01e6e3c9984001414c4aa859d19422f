@@ -1,0 +1,24 @@
+package com.example.sitiatmobile;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+
+public class MyReceiver extends BroadcastReceiver {
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		// TODO Auto-generated method stub
+		Intent backgroundWork = new Intent(context, BackgroundWork.class);
+		PowerManager mgr = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+		WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
+		wakeLock.acquire();
+        
+        context.startService(backgroundWork);       
+        wakeLock.release();
+
+	}
+
+}

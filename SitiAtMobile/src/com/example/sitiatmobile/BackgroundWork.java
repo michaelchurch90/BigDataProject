@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -21,6 +23,9 @@ public class BackgroundWork extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// TODO Auto-generated method stub
+		//PowerManager mgr = (PowerManager)getSystemService(Context.POWER_SERVICE);
+		//WakeLock wakeLock = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyWakeLock");
+		//wakeLock.acquire();
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
 		.setSmallIcon(R.drawable.ic_launcher)
 		.setContentTitle("App Running")
@@ -56,7 +61,8 @@ public class BackgroundWork extends IntentService {
 		
 		if(enabled && 
 				(!wifiOnly|| isWifi) && 
-				(!chargeOnly || isCharging) )
+				(!chargeOnly || isCharging) &&
+				((pct*100)>=Integer.parseInt(batteryPercent)))
 		{
 
 			mNotificationManager.notify(0,mBuilder.build());
@@ -64,7 +70,7 @@ public class BackgroundWork extends IntentService {
 			//Do Work Here------------------------
 			try
 			{
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			}
 			catch(Exception e){}
 			
@@ -77,6 +83,7 @@ public class BackgroundWork extends IntentService {
 		{
 			mNotificationManager.cancel(0);
 		}
+		//wakeLock.release();
 
 		
 

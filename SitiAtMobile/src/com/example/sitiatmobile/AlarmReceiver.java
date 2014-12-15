@@ -1,3 +1,5 @@
+//I was trying to get the device to check every amount of time and try to run, but this isnt working
+//I removed this functionality and instead just uses when the device sleeps to run
 package com.example.sitiatmobile;
 
 import java.util.Calendar;
@@ -9,17 +11,22 @@ import android.content.Context;
 import android.content.Intent;
 
 public class AlarmReceiver extends BroadcastReceiver {
-	public static int minuteTime=1;
-	public static PendingIntent penintent;
+	//public static int minuteTime=1;
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
-		AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		Intent backgroundWork = new Intent(context, BackgroundWork.class);
-	    penintent= PendingIntent.getService(context,0,backgroundWork,0);
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.SECOND, 5);
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), minuteTime*60000, penintent);
+		cal.add(Calendar.SECOND, 10);
+		
+		Intent backgroundWork = new Intent(context, MyReceiver.class);
+	    PendingIntent penintent= PendingIntent.getService(context,0,backgroundWork,PendingIntent.FLAG_CANCEL_CURRENT);
+		
+		AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+	
+		
+		
+		alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, cal.getTimeInMillis(),5000, penintent);
+		
 		
 
 	}

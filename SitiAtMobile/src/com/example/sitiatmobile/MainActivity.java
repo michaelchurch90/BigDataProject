@@ -2,7 +2,6 @@ package com.example.sitiatmobile;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,15 +20,10 @@ public class MainActivity extends PreferenceActivity  implements OnSharedPrefere
         getFragmentManager().beginTransaction()
         .replace(android.R.id.content, new Preferences()).commit();
         
-        boolean alarmUp = (PendingIntent.getBroadcast(this, 0, 
-                new Intent("com.example.sitiatmobile.AlarmReceiver"), 
-                PendingIntent.FLAG_NO_CREATE) != null);
-        if(!alarmUp)
-        {
-        	Toast.makeText(this, "Alarm Service started", Toast.LENGTH_SHORT).show();
+       
+        	//for use in trying to get the alarm to work
         	Intent alarmService = new Intent(this,AlarmReceiver.class);
         	startService(alarmService);
-        }
 
     }
     
