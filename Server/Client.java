@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Client {
 	  public final static int SOCKET_PORT = 13267;      // you may change this
-	  public final static String SERVER = "127.0.0.1";  // localhost
+	  public final static String SERVER = "Radius";  // localhost
 	  public final static String
 	       FILE_TO_RECEIVED = "c:/temp/info-downloaded.txt";  // you may change this, I give a
 	                                                            // different name because i don't want to
