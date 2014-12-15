@@ -70,7 +70,8 @@ public class BackgroundWork extends IntentService {
 			//Do Work Here------------------------
 			try
 			{
-				Thread.sleep(5000);
+				Processor imageProcessor = new Processor("target");
+				imageProcessor.processImage(null); // Will not work, needs to be passed a JSONObject containing relevant data.
 			}
 			catch(Exception e){}
 			
