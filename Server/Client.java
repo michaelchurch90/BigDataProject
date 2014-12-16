@@ -1,7 +1,7 @@
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
@@ -16,37 +16,35 @@ public class Client {
 	                                               // should bigger than the file to be downloaded
 
 	  public static void main (String [] args ) throws IOException {
-	    int bytesRead;
-	    int current = 0;
-	    FileOutputStream fos = null;
-	    BufferedOutputStream bos = null;
-	    Socket sock = null;
+	    
+	      BufferedReader breader = null;
+	      PrintWriter outputToServer = null;
+	    
+	    	    Socket sock = null;
 	    try {
 	      sock = new Socket(SERVER, SOCKET_PORT);
 	      System.out.println("Connecting...");
 
-	      // receive file
-	      byte [] mybytearray  = new byte [FILE_SIZE];
-	      InputStream is = sock.getInputStream();
-	      fos = new FileOutputStream(FILE_TO_RECEIVED);
-	      bos = new BufferedOutputStream(fos);
-	      bytesRead = is.read(mybytearray,0,mybytearray.length);
-	      current = bytesRead;
+	      
 
-	      do {
-	         bytesRead =
-	            is.read(mybytearray, current, (mybytearray.length-current));
-	         if(bytesRead >= 0) current += bytesRead;
-	      } while(bytesRead > -1);
-
-	      bos.write(mybytearray, 0 , current);
-	      bos.flush();
+	      breader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+	     
+	      outputToServer = new PrintWriter(sock.getOutputStream(),true);
+	      
+	      String input;
+	      input=breader.readLine();
+	    	  System.out.println(input);
+	    	 input= "ModifiedInput: "+input;
+	    	 outputToServer.println(input);
 	      System.out.println("File " + FILE_TO_RECEIVED
-	          + " downloaded (" + current + " bytes read)");
+	          + " downloaded (" + input + " bytes read)");
+	      
+
+	      
 	    }
 	    finally {
-	      if (fos != null) fos.close();
-	      if (bos != null) bos.close();
+	    	if(breader!=null) breader.close();
+	    	if(outputToServer != null) outputToServer.close();
 	      if (sock != null) sock.close();
 	    }
 	  }
