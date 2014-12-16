@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.lang.Thread;
 
 public class Server {
 
@@ -17,7 +18,7 @@ public class Server {
 		ArrayList<String>urlList = new ArrayList<String>();
 	    BufferedReader breader = null;
 	    ServerSocket servsock = null;
-	    Socket sock = null;
+//	    Socket sock = null;
 	    File myFile = new File (FILE_TO_SEND);
 	    Scanner inputFile = new Scanner(myFile);
 	    PrintWriter printWriter =null;
@@ -32,23 +33,20 @@ public class Server {
 	      while (urlPos<urlList.size()) {
 	        System.out.println("Waiting...");
 	        try {
-	          sock = servsock.accept();
+	          Socket sock = servsock.accept();
 	          System.out.println("Accepted connection : " + sock);
 
 	      //--------------new thread 
-	          printWriter = new PrintWriter(sock.getOutputStream(),true);
+	   //       printWriter = new PrintWriter(sock.getOutputStream(),true);
 	          System.out.println("Sending " + FILE_TO_SEND + "(" + urlList.get(urlPos) + ")");
-
-	          printWriter.println(urlList.get(urlPos));
+//---------------------------
+	          new Thread(new WorkerRunnable(sock, urlList.get(urlPos))).start();
 	          
-	          breader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+//	          printWriter.println(urlList.get(urlPos));
+//	          
+//	          breader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+//	          printWriter.println(sock.getInputStream());
 	          
-	          String clientInput;
-	          while((clientInput =  breader.readLine())!=null)
-	          {
-	          System.out.println(clientInput);
-	          }
-	          System.out.println("Done.");
 	          //-----------end thread
 	          urlPos++;
 	        }
@@ -56,12 +54,13 @@ public class Server {
 	          if (breader != null) breader.close();
 	          if (printWriter != null) printWriter.close();
 	          if (inputFile != null) inputFile.close();
-	          if (sock!=null) sock.close();
+//	          if (sock!=null) sock.close();
 	        }
 	      }
 	    }
 	    finally {
-	      if (servsock != null) servsock.close();
+	    	
+	    	if (servsock != null) servsock.close();
 	    }
 	  }
 }

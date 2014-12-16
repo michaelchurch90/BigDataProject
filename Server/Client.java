@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Client {
 	  public final static int SOCKET_PORT = 13267;      // you may change this
-	  public final static String SERVER = "Radius";  // localhost
+	  public final static String SERVER = "127.0.0.1";  // localhost
 	  public final static String
 	       FILE_TO_RECEIVED = "c:/temp/info-downloaded.txt";  // you may change this, I give a
 	                                                            // different name because i don't want to
@@ -20,12 +20,10 @@ public class Client {
 	      BufferedReader breader = null;
 	      PrintWriter outputToServer = null;
 	    
-	    	    Socket sock = null;
+	      Socket sock = null;
 	    try {
 	      sock = new Socket(SERVER, SOCKET_PORT);
 	      System.out.println("Connecting...");
-
-	      
 
 	      breader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 	     
@@ -33,19 +31,15 @@ public class Client {
 	      
 	      String input;
 	      input=breader.readLine();
-	    	  System.out.println(input);
-	    	 input= "ModifiedInput: "+input;
-	    	 outputToServer.println(input);
-	      System.out.println("File " + FILE_TO_RECEIVED
-	          + " downloaded (" + input + " bytes read)");
-	      
-
-	      
-	    }
+	      System.out.println(input);
+	      input= "ModifiedInput: "+input;
+	      outputToServer.println(input);
+	      System.out.println("File " + FILE_TO_RECEIVED + " downloaded (" + input + " bytes read)");
+	      }
 	    finally {
 	    	if(breader!=null) breader.close();
 	    	if(outputToServer != null) outputToServer.close();
-	      if (sock != null) sock.close();
+	    	if (sock != null) sock.close();
 	    }
 	  }
 }
