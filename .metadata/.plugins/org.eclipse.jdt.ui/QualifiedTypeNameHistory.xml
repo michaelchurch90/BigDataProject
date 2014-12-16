@@ -9,4 +9,5 @@
 <fullyQualifiedTypeName name="android.app.ActivityManager.RunningServiceInfo"/>
 <fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="android.content.SharedPreferences.OnSharedPreferenceChangeListener"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
 </qualifiedTypeNameHistroy>

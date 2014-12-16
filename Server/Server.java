@@ -12,7 +12,7 @@ import java.lang.Thread;
 public class Server {
 
 	  public final static int SOCKET_PORT = 13267;  // you may change this
-	  public final static String FILE_TO_SEND = "c:/temp/info.txt";  // you may change this
+	  public final static String FILE_TO_SEND = "info.txt";  // you may change this
 
 	  public static void main (String [] args ) throws IOException {
 		ArrayList<String>urlList = new ArrayList<String>();
@@ -37,7 +37,6 @@ public class Server {
 	          System.out.println("Accepted connection : " + sock);
 
 	      //--------------new thread 
-	   //       printWriter = new PrintWriter(sock.getOutputStream(),true);
 	          System.out.println("Sending " + FILE_TO_SEND + "(" + urlList.get(urlPos) + ")");
 //---------------------------
 	          new Thread(new WorkerRunnable(sock, urlList.get(urlPos))).start();

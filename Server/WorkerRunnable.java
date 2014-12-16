@@ -20,11 +20,15 @@ public class WorkerRunnable implements Runnable{
 //            InputStream input  = clientSocket.getInputStream();
 //            OutputStream output = clientSocket.getOutputStream();
             PrintWriter printWriter=new PrintWriter(clientSocket.getOutputStream(),true);
+	    System.out.println(serverText);
 	          printWriter.println(serverText);
+		  
 	         breader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));       
 	         String clientInput;
-	         FileWriter fw = new FileWriter(serverText);
+		 String tokens[] = serverText.split("/");
+	         FileWriter fw = new FileWriter(tokens[tokens.length-1]);
 	         PrintWriter outFile = new PrintWriter(fw);
+	      
 	          while((clientInput =  breader.readLine())!=null)
 	          {
 	          System.out.println(clientInput);
@@ -38,6 +42,7 @@ public class WorkerRunnable implements Runnable{
 //            input.close();
             System.out.println("Request processed: " + serverText);
             clientSocket.close();
+	    
         } catch (IOException e) {
             //report exception somewhere.
             e.printStackTrace();

@@ -1,4 +1,10 @@
 package com.example.setiatmobile;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import org.json.JSONObject;
 
 import android.app.IntentService;
@@ -12,6 +18,8 @@ import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 
 public class BackgroundWork extends IntentService {
@@ -58,11 +66,12 @@ public class BackgroundWork extends IntentService {
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 		boolean isWifi = activeNetwork.getType()== ConnectivityManager.TYPE_WIFI;
 		
-		
+		BufferedReader input=null;
+		PrintWriter output=null;
+		Socket sock = null;
 		if(enabled && 
 				(!wifiOnly|| isWifi) && 
-				(!chargeOnly || isCharging) &&
-				((pct*100)>=Integer.parseInt(batteryPercent)))
+				(!chargeOnly || isCharging))
 		{
 
 			mNotificationManager.notify(0,mBuilder.build());
@@ -70,13 +79,39 @@ public class BackgroundWork extends IntentService {
 			//Do Work Here------------------------
 			try
 			{
-				Processor imageProcessor = new Processor("target");
-				JSONObject jObject = new JSONObject("http://i.imgur.com/LskVyQi.png");
-				JSONObject returnObject;
-				returnObject = imageProcessor.processImage(jObject); // Will not work, needs to be passed a JSONObject containing relevant data.
+				sock = new Socket("172.20.69.78",13267);
+				input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+				output = new PrintWriter(sock.getOutputStream(),true);
 				
+				String url = input.readLine();
+				
+				Processor imageProcessor = new Processor("target");
+				output.println("Begin");
+				JSONObject jObject = new JSONObject();
+				jObject.put("target", url);
+			
+				imageProcessor.processImage(jObject); // Will not work, needs to be passed a JSONObject containing relevant data.
+				Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+			//	Iterator<?> keys = returnObject.keys();
+				//output.println("Start");
+			//	while(keys.hasNext())
+				//{
+				//	String key= (String)keys.next();
+				//	String value =  returnObject.getString(key);
+				//	Toast.makeText(this, key+":"+value, Toast.LENGTH_LONG).show();
+				//	output.println(key+":"+value);
+				//}
+				
+				output.println("Done");
 			}
-			catch(Exception e){}
+			catch(IOException e)
+			{
+				Log.e("Exception", e.getMessage());
+			}
+			catch(Exception e)
+			{
+				Log.e("Exception", e.getMessage());
+			}
 			
 			
 			//------------------------------------
