@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Iterator;
 
 import org.json.JSONObject;
 
@@ -86,31 +87,30 @@ public class BackgroundWork extends IntentService {
 				String url = input.readLine();
 				
 				Processor imageProcessor = new Processor(this, "target");
-				output.println("Begin");
 				JSONObject jObject = new JSONObject();
 				jObject.put("target", url);
 			
-				imageProcessor.processImage(jObject); // Will not work, needs to be passed a JSONObject containing relevant data.
-				Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
-			//	Iterator<?> keys = returnObject.keys();
-				//output.println("Start");
-			//	while(keys.hasNext())
-				//{
-				//	String key= (String)keys.next();
-				//	String value =  returnObject.getString(key);
-				//	Toast.makeText(this, key+":"+value, Toast.LENGTH_LONG).show();
-				//	output.println(key+":"+value);
-				//}
+				JSONObject returnObject = imageProcessor.processImage(jObject);
+		
+				Iterator<?> keys = returnObject.keys();
+			    while(keys.hasNext())
+				{
+					String key= (String)keys.next();
+					String value =  returnObject.getString(key);
+					Toast.makeText(this, key+":"+value, Toast.LENGTH_LONG).show();
+					output.println(key+":"+value);
+				}
 				
-				output.println("Done");
+			
 			}
 			catch(IOException e)
 			{
-				Log.e("Exception", e.getMessage());
+				
+				Log.e("Exception", e.getCause()+"========="+e.getMessage());
 			}
 			catch(Exception e)
 			{
-				Log.e("Exception", e.getMessage());
+				//Log.e("Exception", e.getMessage());
 			}
 			
 			
@@ -124,7 +124,6 @@ public class BackgroundWork extends IntentService {
 			mNotificationManager.cancel(0);
 		}
 		//wakeLock.release();
-
 		
 
 	}

@@ -1,0 +1,34 @@
+//I was trying to get the device to check every amount of time and try to run, but this isnt working
+//I removed this functionality and instead just uses when the device sleeps to run
+package com.example.setiatmobile;
+
+import java.util.Calendar;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+public class AlarmReceiver extends BroadcastReceiver {
+	//public static int minuteTime=1;
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		// TODO Auto-generated method stub
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.SECOND, 10);
+		
+		Intent backgroundWork = new Intent(context, MyReceiver.class);
+	    PendingIntent penintent= PendingIntent.getService(context,0,backgroundWork,PendingIntent.FLAG_CANCEL_CURRENT);
+		
+		AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+	
+		
+		
+		alarm.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, cal.getTimeInMillis(),5000, penintent);
+		
+		
+
+	}
+
+}

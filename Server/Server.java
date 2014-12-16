@@ -31,22 +31,11 @@ public class Server {
 	    try {
 	      servsock = new ServerSocket(SOCKET_PORT);
 	      while (urlPos<urlList.size()) {
-	        System.out.println("Waiting...");
 	        try {
 	          Socket sock = servsock.accept();
 	          System.out.println("Accepted connection : " + sock);
-
 	      //--------------new thread 
-	          System.out.println("Sending " + FILE_TO_SEND + "(" + urlList.get(urlPos) + ")");
-//---------------------------
 	          new Thread(new WorkerRunnable(sock, urlList.get(urlPos))).start();
-	          
-//	          printWriter.println(urlList.get(urlPos));
-//	          
-//	          breader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-//	          printWriter.println(sock.getInputStream());
-	          
-	          //-----------end thread
 	          urlPos++;
 	        }
 	        finally {

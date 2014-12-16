@@ -3,7 +3,6 @@ package com.example.setiatmobile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.util.Hashtable;
 
@@ -54,7 +53,7 @@ public class Processor {
 
 		InputStream targetInputStream = new URL(target.getString(mTargetKey))
 				.openStream();
-		OutputStream targetOutputStream = mContext.openFileOutput(TEMPORARY_FILE_NAME, Context.MODE_PRIVATE);
+		/*FileOutputStream targetOutputStream = mContext.openFileOutput(TEMPORARY_FILE_NAME, Context.MODE_PRIVATE);
 
 		byte[] transferArray = new byte[2048];
 		int targetLength;
@@ -66,7 +65,8 @@ public class Processor {
 		targetInputStream.close();
 		targetOutputStream.close();
 
-		Bitmap targetImage = BitmapFactory.decodeFile(TEMPORARY_FILE_NAME);
+		Bitmap targetImage = BitmapFactory.decodeFile(TEMPORARY_FILE_NAME);*/
+		Bitmap targetImage = BitmapFactory.decodeStream(targetInputStream);
 
 		Hashtable<Integer, Integer> pixelCount = new Hashtable<Integer, Integer>();
 
