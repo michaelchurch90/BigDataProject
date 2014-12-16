@@ -1,4 +1,6 @@
 package com.example.setiatmobile;
+import org.json.JSONObject;
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -8,8 +10,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -71,9 +71,13 @@ public class BackgroundWork extends IntentService {
 			try
 			{
 				Processor imageProcessor = new Processor("target");
-				imageProcessor.processImage(null); // Will not work, needs to be passed a JSONObject containing relevant data.
+				JSONObject jObject = new JSONObject("http://i.imgur.com/LskVyQi.png");
+				JSONObject returnObject;
+				returnObject = imageProcessor.processImage(jObject); // Will not work, needs to be passed a JSONObject containing relevant data.
+				
 			}
 			catch(Exception e){}
+			
 			
 			//------------------------------------
 			
