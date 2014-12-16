@@ -85,7 +85,7 @@ public class BackgroundWork extends IntentService {
 				
 				String url = input.readLine();
 				
-				Processor imageProcessor = new Processor("target");
+				Processor imageProcessor = new Processor(this, "target");
 				output.println("Begin");
 				JSONObject jObject = new JSONObject();
 				jObject.put("target", url);

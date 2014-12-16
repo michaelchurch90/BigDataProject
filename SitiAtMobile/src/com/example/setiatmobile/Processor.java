@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -23,6 +24,7 @@ public class Processor {
 	private static final int PIXEL_COUNT_FLOOR = 5;
 
 	private String mTargetKey = null;
+	private Context mContext;
 
 	/**
 	 * Creates an image processor that will extract the target URI from any
@@ -32,8 +34,9 @@ public class Processor {
 	 *            The key specifying a target URI for an image in the JSON
 	 *            objects.
 	 */
-	public Processor(String targetKey) {
+	public Processor(Context context, String targetKey) {
 
+		mContext = context;
 		mTargetKey = targetKey;
 
 	}
@@ -51,8 +54,7 @@ public class Processor {
 
 		InputStream targetInputStream = new URL(target.getString(mTargetKey))
 				.openStream();
-		OutputStream targetOutputStream = new FileOutputStream(
-				TEMPORARY_FILE_NAME);
+		OutputStream targetOutputStream = mContext.openFileOutput(TEMPORARY_FILE_NAME, Context.MODE_PRIVATE);
 
 		byte[] transferArray = new byte[2048];
 		int targetLength;
